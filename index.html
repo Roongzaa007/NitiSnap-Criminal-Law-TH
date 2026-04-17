@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LawMap 41216 — 5 กลุ่มหลัก</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f4f1eb;
+  --surf:#fffef9;
+  --card:#ffffff;
+  --border:#e2ddd6;
+  --border2:#c8c2b8;
+  --text:#1a1612;
+  --dim:#6b6560;
+  --dim2:#9e9890;
+  --gold:#b07d2a;
+  --gold-light:#fdf3dc;
+  --gold-mid:#f5e4b0;
+
+  --g1:#c0392b; --g1l:#fef5f4; --g1m:#fdd5d2; --g1b:rgba(192,57,43,.12);
+  --g2:#1a6b4a; --g2l:#f0faf5; --g2m:#b8e8d0; --g2b:rgba(26,107,74,.12);
+  --g3:#1e4e8c; --g3l:#f0f5fc; --g3m:#b8d0f0; --g3b:rgba(30,78,140,.12);
+  --g4:#6b35a8; --g4l:#f7f2fd; --g4m:#d8c0f0; --g4b:rgba(107,53,168,.12);
+  --g5:#8a5a1a; --g5l:#fdf6ed; --g5m:#f0d8a8; --g5b:rgba(138,90,26,.12);
+
+  --radius:10px;--radius-sm:6px;
+}
+
+body{background:var(--bg);color:var(--text);font-family:'IBM Plex Sans Thai',sans-serif;font-size:14px;line-height:1.6;min-height:100vh}
+
+/* ─── HEADER ─── */
+.header{background:var(--surf);border-bottom:2px solid var(--border);padding:20px 16px 16px;text-align:center;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.header h1{font-size:1.25rem;font-weight:700;color:var(--text);letter-spacing:-.3px;margin-bottom:4px}
+.header p{font-size:.78rem;color:var(--dim)}
+.hbadge{display:inline-block;background:var(--gold-light);border:1px solid var(--gold);color:var(--gold);font-size:.68rem;font-weight:700;padding:2px 12px;border-radius:20px;margin-bottom:8px;letter-spacing:.3px;font-family:'IBM Plex Mono',monospace}
+
+/* ─── GROUP NAV ─── */
+.gnav{display:flex;justify-content:center;gap:6px;padding:12px 16px;flex-wrap:wrap;background:var(--surf);border-bottom:1px solid var(--border)}
+.gnav-btn{padding:6px 14px;border-radius:20px;border:2px solid;font-family:'IBM Plex Sans Thai',sans-serif;font-size:.78rem;font-weight:600;cursor:pointer;background:transparent;transition:all .2s;white-space:nowrap}
+.gnav-btn.g1{border-color:var(--g1);color:var(--g1)}
+.gnav-btn.g2{border-color:var(--g2);color:var(--g2)}
+.gnav-btn.g3{border-color:var(--g3);color:var(--g3)}
+.gnav-btn.g4{border-color:var(--g4);color:var(--g4)}
+.gnav-btn.g5{border-color:var(--g5);color:var(--g5)}
+.gnav-btn.active.g1,.gnav-btn.g1:hover{background:var(--g1);color:#fff}
+.gnav-btn.active.g2,.gnav-btn.g2:hover{background:var(--g2);color:#fff}
+.gnav-btn.active.g3,.gnav-btn.g3:hover{background:var(--g3);color:#fff}
+.gnav-btn.active.g4,.gnav-btn.g4:hover{background:var(--g4);color:#fff}
+.gnav-btn.active.g5,.gnav-btn.g5:hover{background:var(--g5);color:#fff}
+
+/* ─── MAIN ─── */
+.main{max-width:860px;margin:0 auto;padding:20px 14px 60px}
+.gsec{display:none}
+.gsec.show{display:block}
+
+/* ─── GROUP HEADER ─── */
+.ghead{display:flex;align-items:flex-start;gap:14px;padding:16px 18px;border-radius:var(--radius);border-left:5px solid;margin-bottom:16px}
+.gnum{font-size:1.8rem;font-weight:700;font-family:'IBM Plex Mono',monospace;line-height:1;flex-shrink:0}
+.gtitle{font-size:1rem;font-weight:700;margin-bottom:3px}
+.gsub{font-size:.76rem;color:var(--dim);line-height:1.5}
+.gtip{display:inline-block;font-size:.7rem;font-weight:600;padding:2px 10px;border-radius:12px;margin-top:6px;font-family:'IBM Plex Mono',monospace}
+
+/* ─── LAW CARD ─── */
+.lcard{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:10px;overflow:hidden;transition:box-shadow .2s}
+.lcard:hover{box-shadow:0 2px 12px rgba(0,0,0,.08)}
+.lcard-head{display:flex;align-items:center;gap:12px;padding:12px 16px;cursor:pointer;user-select:none}
+.lcard-head:hover{background:rgba(0,0,0,.015)}
+.lnum{font-size:.72rem;font-weight:700;padding:4px 12px;border-radius:6px;flex-shrink:0;min-width:62px;text-align:center;font-family:'IBM Plex Mono',monospace;cursor:pointer}
+.lcard-info{flex:1}
+.ltitle{font-weight:600;font-size:.88rem;line-height:1.4;color:var(--text)}
+.lsub{font-size:.73rem;color:var(--dim);margin-top:2px}
+.lchev{margin-left:auto;font-size:.75rem;color:var(--dim2);transition:transform .25s;flex-shrink:0}
+.lbody{display:none;padding:0 16px 16px;font-size:.8rem;line-height:1.85;border-top:1px solid var(--border)}
+.lbody.open{display:block}
+
+/* ─── LAW TEXT ─── */
+.ltext{background:var(--gold-light);border:1px solid var(--gold-mid);border-left:3px solid var(--gold);border-radius:var(--radius-sm);padding:12px 14px;margin:12px 0;font-size:.78rem;white-space:pre-line;line-height:1.85;color:#4a3800;font-family:'IBM Plex Mono',monospace}
+.ll{display:block;font-size:.68rem;font-weight:700;color:var(--gold);margin-bottom:6px;font-family:'IBM Plex Sans Thai',sans-serif;letter-spacing:.3px}
+
+/* ─── ANALYSIS BOX ─── */
+.abox{background:#f8f8f6;border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 14px;margin-top:8px;font-size:.8rem}
+.abox h4{font-size:.76rem;font-weight:700;color:var(--dim);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px}
+
+/* ─── PENALTY BOX ─── */
+.pbox{background:var(--g1l);border:1px solid var(--g1m);border-radius:var(--radius-sm);padding:10px 14px;margin-top:8px;font-size:.8rem}
+.pbox h4{font-size:.74rem;font-weight:700;color:var(--g1);margin-bottom:4px}
+
+/* ─── STAR ─── */
+.star{font-size:.72rem;font-weight:800;color:var(--gold)}
+.star-red{color:var(--g1)}
+
+/* ─── FORMULA BOX ─── */
+.fbox{border-radius:var(--radius-sm);padding:10px 14px;margin:8px 0;font-size:.79rem;border:1px solid;line-height:1.9}
+.tag{display:inline-block;border:1px solid;border-radius:4px;padding:1px 8px;font-size:.7rem;font-weight:700;margin:2px 3px;font-family:'IBM Plex Mono',monospace}
+
+/* ─── QUIZ SECTION ─── */
+.qcard{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:12px}
+.qhead{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:10px;background:#fafaf8}
+.qnum{font-weight:700;font-size:.72rem;padding:3px 12px;border-radius:6px;flex-shrink:0;margin-top:2px;font-family:'IBM Plex Mono',monospace}
+.qq{font-size:.83rem;line-height:1.75;flex:1;color:var(--text)}
+.qbody{padding:12px 16px}
+.qfact{font-size:.76rem;color:var(--dim);background:#f8f8f6;border-radius:var(--radius-sm);padding:8px 12px;margin-bottom:10px;line-height:1.75;border-left:3px solid var(--dim2)}
+.qbtn{background:var(--gold-light);border:1.5px solid var(--gold);color:var(--gold);font-family:'IBM Plex Sans Thai',sans-serif;font-size:.76rem;font-weight:600;padding:6px 18px;border-radius:20px;cursor:pointer;transition:all .2s}
+.qbtn:hover{background:var(--gold);color:#fff}
+.qans{display:none;margin-top:10px;border-radius:var(--radius-sm);overflow:hidden;border:1px solid #b8e8d0}
+.qans.open{display:block}
+.alabel{display:block;font-size:.68rem;font-weight:700;padding:4px 12px;background:#d4f0e4;color:var(--g2);letter-spacing:.5px;text-transform:uppercase;font-family:'IBM Plex Mono',monospace}
+.atext{padding:10px 12px;font-size:.78rem;line-height:1.85;color:var(--text)}
+.verdict{padding:8px 12px;background:var(--g2l);font-size:.78rem;font-weight:600;color:var(--g2);border-top:1px solid var(--g2m)}
+
+/* ─── VIEW BUTTON ─── */
+.view-btn{display:inline-flex;align-items:center;gap:4px;background:var(--gold-light);border:1px solid var(--gold-mid);color:var(--gold);font-family:'IBM Plex Sans Thai',sans-serif;font-size:.7rem;font-weight:600;padding:3px 12px;border-radius:14px;cursor:pointer;transition:all .2s}
+.view-btn:hover{background:var(--gold);color:#fff}
+
+/* ─── MODAL ─── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:1000;display:none;align-items:center;justify-content:center;padding:16px}
+.modal-overlay.open{display:flex}
+.modal{background:var(--card);border:1px solid var(--border);border-radius:14px;width:100%;max-width:580px;max-height:88vh;overflow-y:auto;box-shadow:0 12px 40px rgba(0,0,0,.15)}
+.mhead{display:flex;align-items:center;justify-content:space-between;padding:14px 18px 10px;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--card);z-index:2;border-radius:14px 14px 0 0}
+.mbadge{font-size:.7rem;font-weight:700;padding:3px 12px;border-radius:16px;font-family:'IBM Plex Mono',monospace}
+.mtitle{font-size:.95rem;font-weight:700;color:var(--text);margin:0 10px;flex:1}
+.mclose{background:#f0ede8;border:none;color:var(--dim);width:30px;height:30px;border-radius:50%;font-size:.9rem;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.mclose:hover{background:var(--border2)}
+.mbody{padding:16px 18px 20px}
+
+/* ─── SUMMARY TABLE ─── */
+.stbl{width:100%;border-collapse:collapse;font-size:.76rem;margin-top:6px}
+.stbl th{padding:6px 10px;text-align:left;background:#f0ede8;font-weight:700;border-bottom:2px solid var(--border2);color:var(--dim)}
+.stbl td{padding:6px 10px;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.6}
+.stbl tr:last-child td{border-bottom:none}
+.stbl tr:hover td{background:#fafaf8}
+
+/* ─── FOOTER ─── */
+.footer{text-align:center;padding:16px;font-size:.72rem;color:var(--dim2);border-top:1px solid var(--border);margin-top:24px}
+.vb{display:inline-block;background:#f0ede8;border:1px solid var(--border2);padding:3px 12px;border-radius:8px;font-size:.68rem;margin-top:5px;font-family:'IBM Plex Mono',monospace;color:var(--dim)}
+
+/* ─── COLOR HELPERS ─── */
+.c1{color:var(--g1)}.c2{color:var(--g2)}.c3{color:var(--g3)}.c4{color:var(--g4)}.c5{color:var(--g5)}
+.bg1{background:var(--g1l);border-color:var(--g1m)}.bg2{background:var(--g2l);border-color:var(--g2m)}
+.bg3{background:var(--g3l);border-color:var(--g3m)}.bg4{background:var(--g4l);border-color:var(--g4m)}
+.bg5{background:var(--g5l);border-color:var(--g5m)}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="hbadge">มสธ. 41216 · กฎหมายอาญา</div>
+  <h1>⚖️ LawMap — 5 กลุ่มท่องให้ขึ้นใจ</h1>
+  <p>จัดกลุ่มตาม "หน้าที่" · กดมาตราเพื่อดูตัวบทและวิเคราะห์</p>
+</div>
+
+<!-- GROUP NAV -->
+<div class="gnav">
+  <button class="gnav-btn g1 active" onclick="showG('g1',this)">📌 กลุ่ม 1<br><small>โครงสร้างความรับผิด</small></button>
+  <button class="gnav-btn g2" onclick="showG('g2',this)">⚔️ กลุ่ม 2<br><small>พยายาม</small></button>
+  <button class="gnav-btn g3" onclick="showG('g3',this)">🛡️ กลุ่ม 3<br><small>เหตุยกเว้น/ลดโทษ</small></button>
+  <button class="gnav-btn g4" onclick="showG('g4',this)">👥 กลุ่ม 4<br><small>ตัวการ-ผู้ใช้-สนับสนุน</small></button>
+  <button class="gnav-btn g5" onclick="showG('g5',this)">📋 กลุ่ม 5<br><small>โทษ-อายุความ</small></button>
+</div>
+
+<div class="main">
+
+<!-- ======== กลุ่ม 1: โครงสร้างความรับผิด ======== -->
+<div class="gsec show" id="sec-g1">
+
+  <div class="ghead bg1" style="border-left-color:var(--g1)">
+    <div class="gnum c1">01</div>
+    <div>
+      <div class="gtitle c1">โครงสร้างความรับผิดทางอาญา</div>
+      <div class="gsub">มาตรา 59, 60, 61, 62, 64 · Actus Reus + Mens Rea · ท่องก่อนเลย ทุกข้อสอบต้องใช้</div>
+      <span class="gtip" style="background:var(--g1m);color:var(--g1)">★★★ สำคัญที่สุด</span>
+    </div>
+  </div>
+
+  <!-- สูตรจำ 3 ขั้น -->
+  <div class="fbox bg1" style="margin-bottom:14px">
+    <strong class="c1">💡 สูตรจำ — โครงสร้างความรับผิด 3 ขั้น</strong><br>
+    <span class="tag" style="border-color:var(--g1);color:var(--g1)">ขั้น 1</span> มีการกระทำ + ครบ<strong>องค์ประกอบ</strong> (ภายนอก + ภายใน + ผลสัมพันธ์)<br>
+    <span class="tag" style="border-color:#e67e22;color:#e67e22">ขั้น 2</span> ไม่มี<strong>เหตุยกเว้นความผิด</strong> (ม.68 ป้องกัน, ม.67 จำเป็น, ความยินยอม)<br>
+    <span class="tag" style="border-color:#8a5a1a;color:#8a5a1a">ขั้น 3</span> ไม่มี<strong>เหตุยกเว้นโทษ</strong> (ม.65 วิกลจริต, ม.73 เด็ก, ม.66 เมาสุรา)
+  </div>
+
+  <!-- ม.59 -->
+  <div class="lcard">
+    <div class="lcard-head" onclick="tog(this)">
+      <span class="lnum" style="background:var(--g1b);color:var(--g1)" onclick="e(event);openLaw(59)">ม.59</span>
+      <div class="lcard-info">
+        <div class="ltitle">เจตนา · ประมาท · งดเว้น</div>
+        <div class="lsub"><span class="star-red">★★★</span> หัวใจของกฎหมายอาญา — เจตนา 2 ประเภท + ประมาท 4 เงื่อนไข</div>
+      </div>
+      <span class="lchev">▼</span>
+    </div>
+    <div class="lbody">
+      <div class="ltext"><span class="ll">📜 มาตรา ๕๙ (สาระสำคัญ)</span>วรรค 1: บุคคลจักต้องรับผิดในทางอาญาก็ต่อเมื่อได้กระทำโดยเจตนา เว้นแต่จะได้กระทำโดยประมาทในกรณีที่กฎหมายบัญญัติให้ต้องรับผิดเมื่อได้กระทำโดยประมาท
+
+วรรค 2 (เจตนา): กระทำโดยรู้สำนึกในการที่กระทำ และในขณะเดียวกันผู้กระทำ "ประสงค์ต่อผล" หรือ "ย่อมเล็งเห็นผล" ของการกระทำนั้น
+
+วรรค 4 (ประมาท): กระทำโดยปราศจากความระมัดระวัง ซึ่งบุคคลในภาวะเช่นนั้นจักต้องมีตามวิสัยและพฤติการณ์ และผู้กระทำอาจใช้ความระมัดระวังเช่นว่านั้นได้ แต่หาได้ใช้ให้เพียงพอไม่
+
+วรรคท้าย: "การกระทำ" ให้หมายความรวมถึงการ "ละเว้นการกระทำ" ซึ่งกฎหมายบังคับให้ต้องกระทำ</div>
+      <div class="abox">
+        <h4>🔑 เจตนา 2 ประเภท (วรรค 2)</h4>
+        <span class="tag" style="border-color:var(--g1);color:var(--g1)">ประสงค์ต่อผล</span> รู้ + ต้องการให้ผลเกิด — "ยิงปืนเพื่อให้ตาย"<br>
+        <span class="tag" style="border-color:#e67e22;color:#e67e22">เล็งเห็นผล</span> รู้ว่าผลจะเกิดขึ้น<em>แน่</em> แต่ยังกระทำ — ไม่ใช่แค่ "อาจ" เกิด<br><br>
+        <strong>ประมาท 4 เงื่อนไข (ต้องครบ):</strong><br>
+        ① ไม่ใช่เจตนา ② ปราศจากความระมัดระวัง ③ อาจระวังได้ ④ แต่ไม่ระวัง<br><br>
+        <span style="color:var(--g1)">⚠️ เล็งเห็นผล ≠ ประมาท</span> — เล็งเห็น = รู้แน่ว่าจะเกิด / ประมาท = แค่ไม่ระวัง
+      </div>
+    </div>
+  </div>
+
+  <!-- ม.60 -->
+  <div class="lcard">
+    <div class="lcard-head" onclick="tog(this)">
+      <span class="lnum" style="background:var(--g1b);color:var(--g1)" onclick="e(event);openLaw(60)">ม.60</span>
+      <div class="lcard-info">
+        <div class="ltitle">กระทำโดยพลาด (Aberratio Ictus)</div>
+        <div class="lsub"><span class="star">★★</span> เล็งถูกคน แต่กระสุนพลาดไปถูกคนอื่น</div>
+      </div>
+      <span class="lchev">▼</span>
+    </div>
+    <div class="lbody">
+      <div class="ltext"><span class="ll">📜 มาตรา ๖๐</span>ผู้ใดเจตนาจะกระทำต่อบุคคลหนึ่ง แต่ผลของการกระทำเกิดแก่อีกบุคคลหนึ่งโดยพลาดไป ให้ถือว่าผู้นั้นกระทำโดยเจตนาแก่บุคคลซึ่งได้รับผลร้ายจากการกระทำนั้น
+
+แต่ในกรณีที่กฎหมายบัญญัติให้ลงโทษหนักขึ้นเพราะฐานะของบุคคลหรือเพราะความสัมพันธ์ มิให้นำกฎหมายนั้นมาใช้บังคับเพื่อลงโทษผู้กระทำให้หนักขึ้น</div>
+      <div class="abox">
+        <h4>🔍 เปรียบ ม.60 vs ม.61</h4>
+        <strong>ม.60 พลาด</strong> = เล็งถูกคน A แต่กระสุนพลาดไปถูก B → รับผิดต่อ B + พยายามต่อ A<br>
+        <strong>ม.61 สำคัญผิด</strong> = เล็งผิดคน เข้าใจว่า B คือ A → รับผิดต่อ B อย่างเดียว<br><br>
+        ⚠️ ม.60 ห้ามใช้โทษหนักขึ้นเพราะฐานะ/ความสัมพันธ์ของบุคคลที่พลาด
+      </div>
+    </div>
+  </div>
+
+  <!-- ม.61 -->
+  <div class="lcard">
+    <div class="lcard-head" onclick="tog(this)">
+      <span class="lnum" style="background:var(--g1b);color:var(--g1)" onclick="e(event);openLaw(61)">ม.61</span>
+      <div class="lcard-info">
+        <div class="ltitle">สำคัญผิดในตัวบุคคล/วัตถุ</div>
+        <div class="lsub"><span class="star-red">★★★</span> สำคัญผิดว่าเป็นใคร → ยังผิดตามเจตนาที่มี</div>
+      </div>
+      <span class="lchev">▼</span>
+    </div>
+    <div class="lbody">
+      <div class="ltext"><span class="ll">📜 มาตรา ๖๑</span>ผู้ใดเจตนาจะกระทำต่อบุคคลหนึ่งหรือทรัพย์สิ่งหนึ่ง แต่ได้กระทำต่ออีกบุคคลหนึ่งหรือทรัพย์อีกสิ่งหนึ่งโดยสำคัญผิด ผู้นั้นจะอ้างว่ามิได้มีเจตนากระทำต่อบุคคลหรือทรัพย์ที่ได้รับผลร้ายนั้นไม่ได้</div>
+      <div class="abox">
+        <h4>🔍 ตัวอย่าง</h4>
+        ตั้งใจฆ่า ข. มืดมาก ยิง ค. โดยคิดว่าเป็น ข. → ผิดฐานฆ่า ค. โดยเจตนา (ม.288)<br>
+        ไม่ผิดฐานพยายามฆ่า ข. ด้วย เพราะ ข. ไม่ได้รับผลร้ายอะไร
+      </div>
+    </div>
+  </div>
+
+  <!-- ม.62 -->
+  <div class="lcard">
+    <div class="lcard-head" onclick="tog(this)">
+      <span class="lnum" style="background:var(--g1b);color:var(--g1)" onclick="e(event);openLaw(62)">ม.62</span>
+      <div class="lcard-info">
+        <div class="ltitle">ไม่รู้ข้อเท็จจริงองค์ประกอบ + วรรคท้ายฐานะบุคคล</div>
+        <div class="lsub"><span class="star-red">★★★</span> ออกสอบบ่อยมาก — ไม่รู้ว่าเป็นบุพการี/เจ้าพนักงาน</div>
+      </div>
+      <span class="lchev">▼</span>
+    </div>
+    <div class="lbody">
+      <div class="ltext"><span class="ll">📜 มาตรา ๖๒</span>วรรค 1: ถ้าผู้กระทำไม่รู้ข้อเท็จจริงอันเป็นองค์ประกอบของความผิด จะถือว่ากระทำโดยเจตนามิได้
+
+วรรคท้าย: ถ้าข้อเท็จจริงที่ผู้กระทำไม่รู้นั้น เป็นข้อเท็จจริงซึ่งเป็นเหตุให้โทษหนักขึ้น ผู้กระทำต้องรับโทษหนักขึ้นต่อเมื่อรู้ข้อเท็จจริงนั้น</div>
+      <div class="abox">
+        <h4>🔍 วรรคท้าย ★★★</h4>
+        <strong>ไม่รู้ว่าเป็นบุพการี</strong> → ไม่รับโทษหนักตาม ม.289(1)<br>
+        <strong>ไม่รู้ว่าเป็นเจ้าพนักงาน</strong> → ไม่รับโทษหนักตาม ม.289(2)<br><br>
+        ต้อง "รู้ข้อเท็จจริง" ที่เป็นเหตุหนักขึ้น ถึงจะรับโทษหนักขึ้น
+      </div>
+    </div>
+  </div>
+
+  <!-- สรุปตาราง -->
+  <div class="fbox" style="background:#f8f8f6;border-color:var(--border);margin-top:16px">
+    <strong>📊 สรุปเปรียบเทียบ ม.60 vs ม.61 vs ม.62</strong>
+    <table class="stbl" style="margin-top:8px">
+      <tr><th>มาตรา</th><th>เรื่อง</th><th>ผู้เสียหาย</th><th>ผลต่อโทษหนัก</th></tr>
+      <tr><td class="c1"><strong>ม.60</strong></td><td>พลาด (กระสุนหลุด)</td><td>2 คน</td><td>ห้ามใช้ฐานะเป็นเหตุหนัก</td></tr>
+      <tr><td class="c1"><strong>ม.61</strong></td><td>สำคัญผิดตัวบุคคล</td><td>1 คน</td><td>ใช้ ม.62 วรรคท้ายได้</td></tr>
+      <tr><td class="c1"><strong>ม.62</strong></td><td>ไม่รู้องค์ประกอบ</td><td>—</td><td>ต้องรู้จึงรับโทษหนัก</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ======== กลุ่ม 2: พยายาม ======== -->
+<div class="gsec" id="sec-g2">
+  <div class="ghead bg2" style="border-left-color:var(--g2)">
+    <div class="gnum c2">02</div>
+    <div>
+      <div class="gtitle c2">การพยายามกระทำความผิด</div>
+      <div class="gsub">มาตรา 80, 81, 82 · 3 มาตรา จบ · จำสูตรโทษ 2/3 และ ≤1/2</div>
+      <span class="gtip" style="background:var(--g2m);color:var(--g2)">★★★ ออกสอบบ่อย</span>
+    </div>
+  </div>
+
+  <div class="fbox bg2" style="margin-bottom:14px">
+    <strong class="c2">💡 สูตรจำ — 3 วาระพยายาม</strong><br>
+    <span class="tag" style="border-color:#8a5a1a;color:#8a5a1a">ตระเตรียม</span> ยังไม่ผิด (เว้นแต่กฎหมายบัญญัติ)<br>
+    <span class="tag" style="border-color:var(--g2);color:var(--g2)">ลงมือ = ม.80</span> โทษ <strong>2/3</strong> · ไม่บรรลุแน่แท้ = ม.81 โทษ <strong>≤1/2</strong><br>
+    <span class="tag" style="border-color:var(--g3);color:var(--g3)">ยับยั้ง = ม.82</span> ยกเว้นโทษพยายาม (แต่ยังผิดในสิ่งที่ทำไปแล้ว)
+  </div>
+
+  <div class="lcard">
+    <div class="lcard-head" onclick="tog(this)">
+      <span class="lnum" style="background:var(--g2b);color:var(--g2)" onclick="e(event);openLaw(80)">ม.80</span>
+      <div class="lcard-info">
+        <div class="ltitle">พยายามกระทำความผิด — โทษ 2/3</div>
+        <div class="lsub"><span class="star-red">★★★</span> เงื่อนไข 3 ข้อ · แยก "ตระเตรียม" ออกจาก "ลงมือ"</div>
+      </div><span class="lchev">▼</span>
+    </div>
+    <div class="lbody">
+      <div class="ltext"><span class="ll">📜 มาตรา ๘๐</span>ผู้ใดลงมือกระทำความผิดแต่กระทำไปไม่ตลอด หรือกระทำไปตลอดแล้วแต่การกระทำนั้นไม่บรรลุผล ผู้นั้นพยายามกระทำความผิด
+
+ผู้พยายามกระทำความผิด ต้องระวางโทษสองในสามส่วนของโทษที่กฎหมายกำหนดไว้สำหรับความผิดนั้น</div>
+      <div class="abox">
+        <h4>🔍 เงื่อนไข 3 ข้อ</h4>
+        ① มีเจตนากระทำผิด (เจตนาสำเร็จ)<br>
+        ② <strong>ลงมือ</strong>กระทำแล้ว — พ้นวาระ "ตระเตรียม"<br>
+        ③ ไม่บรรลุผลเพราะเหตุบังเอิญ (ถูกขัดขวาง / ยิงไม่ถูก / ถูกแต่ไม่ตาย)
+      </div>
+      <div class="pbox"><h4>⚖️ โทษ</h4>2/3 ของโทษความผิดสำเร็จ</div>
+    </div>
+  </div>
+
+  <div class="lcard">
+    <div class="lcard-head" onclick="tog(this)">
+      <span class="lnum" style="background:var(--g2b);color:var(--g2)" onclick="e(event);openLaw(81)">ม.81</span>
+      <div class="lcard-info">
+        <div class="ltitle">พยายามที่ไม่บรรลุผลได้อย่างแน่แท้ — โทษ ≤1/2</div>
+        <div class="lsub">ปืนไม่มีกระสุน / ยิงศพ / งมงาย</div>
+      </div><span class="lchev">▼</span>
+    </div>
+    <div class="lbody">
+      <div class="ltext"><span class="ll">📜 มาตรา ๘๑</span>ผู้ใดกระทำการโดยมุ่งต่อผลซึ่งกฎหมายบัญญัติเป็นความผิด แต่การกระทำนั้นไม่สามารถจะบรรลุผลได้อย่างแน่แท้ เพราะเหตุปัจจัยซึ่งใช้ในการกระทำ หรือเพราะเหตุแห่งวัตถุที่มุ่งหมายกระทำต่อ ผู้นั้นต้องระวางโทษไม่เกินกึ่งหนึ่งของโทษที่กฎหมายกำหนดไว้สำหรับความผิดนั้น
+
+ถ้าการกระทำดังกล่าวในวรรคแรกได้กระทำไปโดยความเชื่ออย่างงมงาย ศาลจะไม่ลงโทษก็ได้</div>
+      <div class="abox">
+        <h4>🔍 สาเหตุที่ไม่บรรลุผลแน่แท้ (ต้องมาจาก 2 อย่างนี้เท่านั้น)</h4>
+        <span class="tag" style="border-color:var(--g2);color:var(--g2)">① ปัจจัยที่ใช้</span> เครื่องมือบกพร่อง เช่น ปืนไม่มีกระสุน วางยาที่ไม่ใช่ยาพิษ<br>
+        <span class="tag" style="border-color:var(--g2);color:var(--g2)">② วัตถุบกพร่อง</span> วัตถุ/บุคคลที่มุ่งกระทำต่อไม่มีสภาพเป็นวัตถุแห่งความผิด เช่น ยิงศพ<br>
+        <span class="tag" style="border-color:#8a5a1a;color:#8a5a1a">งมงาย</span> สาปแช่ง ทำพิธี → ศาลจะไม่ลงโทษก็ได้
+      </div>
+      <div class="pbox"><h4>⚖️ โทษ</h4>ไม่เกิน 1/2 ของโทษ | งมงาย → ศาลอาจไม่ลงโทษ</div>
+    </div>
+  </div>
+
+  <div class="lcard">
+    <div class="lcard-head" onclick="tog(this)">
+      <span class="lnum" style="background:var(--g2b);color:var(--g2)" onclick="e(event);openLaw(82)">ม.82</span>
+      <div class="lcard-info">
+        <div class="ltitle">ยับยั้งหรือกลับใจ — ยกเว้นโทษพยายาม</div>
+        <div class="lsub">สมัครใจถอนตัว · แต่ยังผิดในสิ่งที่ทำไปแล้ว</div>
+      </div><span class="lchev">▼</span>
+    </div>
+    <div class="lbody">
+      <div class="ltext"><span class="ll">📜 มาตรา ๘๒</span>ถ้าผู้ที่ได้ลงมือกระทำความผิดได้ยับยั้งเสียเองไม่กระทำการให้ตลอด หรือได้กลับใจแก้ไขไม่ให้การกระทำนั้นบรรลุผล ผู้นั้นไม่ต้องรับโทษสำหรับการพยายามกระทำความผิดนั้น
+
+แต่ถ้าการที่ได้กระทำไปแล้วต้องตามบทกฎหมายที่บัญญัติเป็นความผิด ผู้นั้นต้องรับโทษสำหรับการกระทำนั้น</div>
+      <div class="abox">
+        <h4>🔍 สมัครใจ vs ไม่สมัครใจ</h4>
+        <span style="color:var(--g2)">✅ สมัครใจ</span> ยกเว้นโทษพยายาม → "ยิงปืนได้แต่หยุดเอง"<br>
+        <span style="color:var(--g1)">❌ ไม่สมัครใจ</span> ไม่ยกเว้น → "ถูกจับก่อน" "หยุดเพราะกลัวตำรวจ"<br><br>
+        ⚠️ แต่สิ่งที่ทำไปแล้วและเป็นความผิดอื่น → ยังต้องรับโทษ
+      </div>
+    </div>
+  </div>
+
+  <!-- ตารางเปรียบ -->
+  <div class="fbox" style="background:#f8f8f6;border-color:var(--border);margin-top:16px">
+    <strong>📊 เปรียบเทียบ 3 มาตรา</strong>
+    <table class="stbl" style="margin-top:8px">
+      <tr><th>มาตรา</th><th>สถานการณ์</th><th>โทษ</th></tr>
+      <tr><td class="c2"><strong>ม.80</strong></td><td>ลงมือ ไม่บรรลุผล (บังเอิญ)</td><td><strong>2/3</strong></td></tr>
+      <tr><td class="c2"><strong>ม.81</strong></td><td>ลงมือ แต่ไม่บรรลุแน่แท้เพราะปัจจัย/วัตถุ</td><td><strong>≤ 1/2</strong></td></tr>
+      <tr><td class="c2"><strong>ม.82</strong></td><td>ยับยั้ง/กลับใจ (สมัครใจ)</td><td><strong>ยกเว้นโทษ</strong></td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ======== กลุ่ม 3: เหตุยกเว้น/ลดโทษ ======== -->
+<div class="gsec" id="sec-g3">
+  <div class="ghead bg3" style="border-left-color:var(--g3)">
+    <div class="gnum c3">03</div>
+    <div>
+      <div class="gtitle c3">เหตุยกเว้นความผิด · ยกเว้นโทษ · ลดโทษ</div>
+      <div class="gsub">ม.65–78 · แยก 4 ประเภทให้ออก · สำคัญสำหรับข้อสอบวินิจฉัย</div>
+      <span class="gtip" style="background:var(--g3m);color:var(--g3)">★★★ ต้องแยกประเภทให้ได้</span>
+    </div>
+  </div>
+
+  <div class="fbox bg3" style="margin-bottom:14px">
+    <strong class="c3">💡 สูตรจำ — 4 ประเภท</strong><br>
+    <span class="tag" style="border-color:var(--g3);color:var(--g3)">ยกเว้นความผิด</span> → "ผู้นั้น<strong>ไม่มีความผิด</strong>" · ม.67, 68, 70<br>
+    <span class="tag" style="border-color:var(--g1);color:var(--g1)">ยกเว้นโทษ</span> → "ผู้นั้น<strong>ไม่ต้องรับโทษ</strong>" (แต่ยังมีความผิด) · ม.65 ว.1, 66, 73, 74<br>
+    <span class="tag" style="border-color:#e67e22;color:#e67e22">ลดโทษ</span> (ตามอัตรา) · ม.75, 76, 65 ว.2<br>
+    <span class="tag" style="border-color:#8a5a1a;color:#8a5a1a">บรรเทาโทษ</span> (ดุลพินิจ) · ม.72, 77, 78
+  </div>
+
+  <!-- ม.68 -->
+  <div class="lcard">
+    <div class="lcard-head" onclick="tog(this)">
+      <span class="lnum" style="background:var(--g3b);color:var(--g3)" onclick="e(event);openLaw(68)">ม.68</span>
+      <div class="lcard-info">
+        <div class="ltitle">ป้องกันโดยชอบด้วยกฎหมาย — 4 Elements</div>
+        <div class="lsub"><span class="star-red">★★★</span> ต้องครบ 4 ข้อ · "ผู้นั้นไม่มีความผิด"</div>
+      </div><span class="lchev">▼</span>
+    </div>
+    <div class="lbody">
+      <div class="ltext"><span class="ll">📜 มาตรา ๖๘</span>ผู้ใดจำต้องกระทำการใดเพื่อป้องกันสิทธิของตนหรือของผู้อื่นให้พ้นจากภยันตรายซึ่งเกิดจากการประทุษร้ายอันละเมิดต่อกฎหมาย และเป็นภยันตรายที่ใกล้จะถึง ถ้าได้กระทำพอสมควรแก่เหตุ การกระทำนั้นเป็นการป้องกันโดยชอบด้วยกฎหมาย ผู้นั้นไม่มีความผิด</div>
+      <div class="abox">
+        <h4>🔍 4 Elements (ขาดข้อใดข้อหนึ่ง = ไม่ใช่ป้องกัน)</h4>
+        ① ภยันตรายจาก<strong>การประทุษร้ายที่ละเมิดกฎหมาย</strong> (ต้องเป็นภัยจากมนุษย์)<br>
+        ② ภยันตรายนั้น<strong>ใกล้จะถึง</strong> (imminent)<br>
+        ③ กระทำเพื่อ<strong>ป้องกันสิทธิ</strong>ตนหรือผู้อื่น<br>
+        ④ กระทำ<strong>พอสมควรแก่เหตุ</strong> (proportionate)
+      </div>
+    </div>
+  </div>
+
+  <!-- ม.67 -->
+  <div class="lcard">
+    <div class="lcard-head" onclick="tog(this)">
+      <span class="lnum" style="background:var(--g3b);color:var(--g3)" onclick="e(event);openLaw(67)">ม.67</span>
+      <div class="lcard-info">
+        <div class="ltitle">กระทำโดยจำเป็น — ภัยจากธรรมชาติ</div>
+        <div class="lsub"><span class="star">★★</span> ภัยจากสิ่งแวดล้อม ต่างจาก ม.68 ที่ภัยจากมนุษย์</div>
+      </div><span class="lchev">▼</span>
+    </div>
+    <div class="lbody">
+      <div class="ltext"><span class="ll">📜 มาตรา ๖๗</span>ผู้ใดกระทำการใดเพื่อป้องกันสิทธิของตนหรือของผู้อื่นจากภยันตรายที่ใกล้จะถึง อันเกิดจากสิ่งแวดล้อมหรือจากเหตุสุดวิสัย เว้นแต่จะสามารถหลีกเลี่ยงภยันตรายได้ด้วยวิธีอื่น และกระทำสมควรแก่เหตุ ผู้นั้นไม่มีความผิด</div>
+      <div class="abox"><h4>🔍 ต่างจาก ม.68</h4>ม.67 = ภัยจาก<em>สิ่งแวดล้อม/เหตุสุดวิสัย</em> · ม.68 = ภัยจาก<em>การประทุษร้ายของมนุษย์</em></div>
+    </div>
+  </div>
+
+  <!-- ม.65 -->
+  <div class="lcard">
+    <div class="lcard-head" onclick="tog(this)">
+      <span class="lnum" style="background:var(--g3b);color:var(--g3)" onclick="e(event);openLaw(65)">ม.65</span>
+      <div class="lcard-info">
+        <div class="ltitle">วิกลจริต — ไม่ต้องรับโทษ</div>
+        <div class="lsub"><span class="star-red">★★★</span> ต้องวิกลจริต "ขณะกระทำ" · ว.1 ยกเว้นโทษ · ว.2 ลดโทษ</div>
+      </div><span class="lchev">▼</span>
+    </div>
+    <div class="lbody">
+      <div class="ltext"><span class="ll">📜 มาตรา ๖๕</span>ผู้ใดกระทำความผิด ในขณะไม่สามารถรู้ผิดชอบ หรือไม่สามารถบังคับตนเองได้เพราะมีจิตบกพร่อง โรคจิต หรือจิตฟั่นเฟือน ผู้นั้นไม่ต้องรับโทษ
+
+แต่ถ้าผู้กระทำความผิดเข้าอยู่ในสภาพเช่นว่านั้นบางส่วน ผู้นั้นอาจรับโทษน้อยกว่าโทษที่กฎหมายกำหนดไว้สำหรับความผิดนั้นเพียงใดก็ได้</div>
+      <div class="abox"><h4>🔍 ม.65 ว.1 vs ว.2</h4>วรรค 1: วิกลจริตเต็ม → <strong>ไม่ต้องรับโทษ</strong> (ยกเว้นโทษ)<br>วรรค 2: วิกลจริตบางส่วน → <strong>ลดโทษ</strong> เท่าใดก็ได้</div>
+    </div>
+  </div>
+
+  <!-- อายุ ม.73-76 -->
+  <div class="lcard">
+    <div class="lcard-head" onclick="tog(this)">
+      <span class="lnum" style="background:var(--g3b);color:var(--g3);font-size:.68rem">ม.73–76</span>
+      <div class="lcard-info">
+        <div class="ltitle">เด็กและเยาวชน — ตารางอายุ 4 ระดับ</div>
+        <div class="lsub"><span class="star-red">★★★</span> ม.73 ≤15ปี · ม.74 >10≤15ปี (5 อนุ) · ม.75 >15<18ปี · ม.76 18–20ปี</div>
+      </div><span class="lchev">▼</span>
+    </div>
+    <div class="lbody">
+      <table class="stbl">
+        <tr><th>มาตรา</th><th>ช่วงอายุ</th><th>ผล</th><th>ประเภท</th></tr>
+        <tr>
+          <td><button class="view-btn" onclick="openLaw(73)">📜 ม.73</button></td>
+          <td><strong>≤ 15 ปี</strong></td>
+          <td style="color:var(--g1)">ไม่ต้องรับโทษ · ส่งพนักงานคุ้มครองเด็ก</td>
+          <td>ยกเว้นโทษ</td>
+        </tr>
+        <tr>
+          <td><button class="view-btn" onclick="openLaw(74)">📜 ม.74</button></td>
+          <td><strong>> 10 แต่ ≤ 15 ปี</strong></td>
+          <td style="color:var(--g1)">ไม่รับโทษ · ศาลมีอำนาจ 5 มาตรการ</td>
+          <td>มาตรการแทน</td>
+        </tr>
+        <tr>
+          <td><button class="view-btn" onclick="openLaw(75)">📜 ม.75</button></td>
+          <td><strong>> 15 แต่ < 18 ปี</strong></td>
+          <td style="color:#e67e22">รับโทษ แต่ลด <strong>1/2</strong></td>
+          <td>ลดโทษ</td>
+        </tr>
+        <tr>
+          <td><button class="view-btn" onclick="openLaw(76)">📜 ม.76</button></td>
+          <td><strong>18 แต่ ≤ 20 ปี</strong></td>
+          <td style="color:#e67e22">รับโทษ แต่ลด <strong>1/3 หรือ 1/2</strong></td>
+          <td>ลดโทษ</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- ม.72 -->
+  <div class="lcard">
+    <div class="lcard-head" onclick="tog(this)">
+      <span class="lnum" style="background:var(--g3b);color:var(--g3)" onclick="e(event);openLaw(72)">ม.72</span>
+      <div class="lcard-info">
+        <div class="ltitle">บันดาลโทสะ — บรรเทาโทษ</div>
+        <div class="lsub">ถูกข่มเหงร้ายแรง + กระทำทันที · ศาลลดโทษเท่าใดก็ได้</div>
+      </div><span class="lchev">▼</span>
+    </div>
+    <div class="lbody">
+      <div class="ltext"><span class="ll">📜 มาตรา ๗๒</span>ผู้ใดบันดาลโทสะโดยถูกข่มเหงอย่างร้ายแรงด้วยเหตุอันไม่เป็นธรรม จึงกระทำความผิดต่อผู้ข่มเหงในขณะนั้น ศาลจะลงโทษผู้นั้นน้อยกว่าที่กฎหมายกำหนดไว้สำหรับความผิดนั้นเพียงใดก็ได้</div>
+      <div class="abox"><h4>🔍 3 เงื่อนไข</h4>① ถูกข่มเหง<strong>อย่างร้ายแรง</strong>และไม่เป็นธรรม ② บันดาลโทสะ ③ กระทำต่อ<strong>ผู้ข่มเหงในขณะนั้น</strong> (ทันที ไม่วางแผน)</div>
+    </div>
+  </div>
+</div>
+
+<!-- ======== กลุ่ม 4: ตัวการ-ผู้ใช้-ผู้สนับสนุน ======== -->
+<div class="gsec" id="sec-g4">
+  <div class="ghead bg4" style="border-left-color:var(--g4)">
+    <div class="gnum c4">04</div>
+    <div>
+      <div class="gtitle c4">ผู้มีส่วนเกี่ยวข้องในการกระทำผิด</div>
+      <div class="gsub">มาตรา 83, 84, 85/85_p, 86, 87 · แยกโทษแต่ละบทบาทให้ได้</div>
+      <span class="gtip" style="background:var(--g4m);color:var(--g4)">★★★ โทษต่างกัน!</span>
+    </div>
+  </div>
+
+  <div class="fbox bg4" style="margin-bottom:14px">
+    <strong class="c4">💡 สูตรจำ — โทษเปรียบเทียบ</strong><br>
+    <span class="tag" style="border-color:var(--g4);color:var(--g4)">ตัวการ ม.83</span> โทษ<strong>เต็ม</strong><br>
+    <span class="tag" style="border-color:var(--g4);color:var(--g4)">ผู้ใช้ ม.84</span> กระทำแล้ว=เต็ม · ยังไม่กระทำ=<strong>1/3</strong> · ใช้เด็ก/ลูกจ้าง/ยากจน=+<strong>1/2</strong><br>
+    <span class="tag" style="border-color:var(--g4);color:var(--g4)">ผู้ใช้โฆษณา ม.85</span> ยังไม่กระทำ=<strong>1/2</strong><br>
+    <span class="tag" style="border-color:var(--g4);color:var(--g4)">ผู้สนับสนุน ม.86</span> โทษ<strong>2/3</strong>
+  </div>
+
+  <div class="lcard">
+    <div class="lcard-head" onclick="tog(this)">
+      <span class="lnum" style="background:var(--g4b);color:var(--g4)" onclick="e(event);openLaw(83)">ม.83</span>
+      <div class="lcard-info">
+        <div class="ltitle">ตัวการร่วม — ร่วมใจ + ร่วมกระทำ</div>
+        <div class="lsub"><span class="star-red">★★★</span> ต้องมีทั้งสอง · 4 ลักษณะการกระทำร่วม</div>
+      </div><span class="lchev">▼</span>
+    </div>
+    <div class="lbody">
+      <div class="ltext"><span class="ll">📜 มาตรา ๘๓</span>ในกรณีความผิดใดเกิดขึ้นโดยการกระทำของบุคคลตั้งแต่สองคนขึ้นไป ผู้ที่ได้ร่วมกระทำความผิดด้วยกันนั้นเป็นตัวการ ต้องระวางโทษตามที่กฎหมายกำหนดไว้สำหรับความผิดนั้น</div>
+      <div class="abox">
+        <h4>🔍 4 ลักษณะการกระทำร่วม</h4>
+        ① กระทำส่วนหนึ่งของความผิด<br>
+        ② แบ่งหน้าที่กันทำ (อยู่ที่เกิดเหตุขณะนั้น)<br>
+        ③ อยู่ร่วมในที่เกิดเหตุพร้อมช่วยเหลือทันที<br>
+        ④ อยู่ที่เกิดเหตุและใช้ให้ผู้อื่นกระทำ<br><br>
+        ⚠️ ต้อง "ขณะ" กระทำผิด — เข้าร่วมหลังความผิดสำเร็จแล้ว ≠ ตัวการ
+      </div>
+    </div>
+  </div>
+
+  <div class="lcard">
+    <div class="lcard-head" onclick="tog(this)">
+      <span class="lnum" style="background:var(--g4b);color:var(--g4)" onclick="e(event);openLaw(84)">ม.84</span>
+      <div class="lcard-info">
+        <div class="ltitle">ผู้ใช้ — ก่อให้ผู้อื่นกระทำผิด (เจาะจง)</div>
+        <div class="lsub"><span class="star-red">★★★</span> โทษ 3 กรณี + เพิ่ม 1/2 ถ้าใช้คนเปราะบาง</div>
+      </div><span class="lchev">▼</span>
+    </div>
+    <div class="lbody">
+      <div class="ltext"><span class="ll">📜 มาตรา ๘๔ (สาระสำคัญ)</span>ผู้ใดก่อให้ผู้อื่นกระทำความผิดไม่ว่าด้วยการใช้ บังคับ ขู่เข็ญ จ้าง วานหรือยุยงส่งเสริม หรือด้วยวิธีอื่นใด ผู้นั้นเป็นผู้ใช้ให้กระทำความผิด
+ถ้าผู้ถูกใช้กระทำความผิดนั้น ผู้ใช้ต้องรับโทษเสมือนเป็นตัวการ
+ถ้าความผิดมิได้กระทำลง ผู้ใช้ต้องระวางโทษ 1/3 ของโทษ
+เพิ่มโทษ 1/2 ถ้าผู้ถูกใช้เป็นเด็ก ≤18 ปี / ผู้พิการ / ลูกจ้าง / ยากจน</div>
+      <table class="stbl" style="margin-top:8px">
+        <tr><th>สถานการณ์</th><th>โทษผู้ใช้</th></tr>
+        <tr><td>ผู้ถูกใช้กระทำสำเร็จ</td><td style="color:var(--g1)"><strong>เท่าตัวการ</strong></td></tr>
+        <tr><td>ผู้ถูกใช้ยังไม่กระทำ</td><td style="color:#e67e22"><strong>1/3</strong> ของโทษ</td></tr>
+        <tr><td>ใช้เด็ก/ผู้พิการ/ลูกจ้าง/ยากจน</td><td style="color:var(--g1)"><strong>+1/2</strong> เพิ่มอีก</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="lcard">
+    <div class="lcard-head" onclick="tog(this)">
+      <span class="lnum" style="background:var(--g4b);color:var(--g4)" onclick="e(event);openLaw(86)">ม.86</span>
+      <div class="lcard-info">
+        <div class="ltitle">ผู้สนับสนุน — ช่วยก่อน/ขณะ โทษ 2/3</div>
+        <div class="lsub"><span class="star-red">★★★</span> ช่วยหลังความผิดสำเร็จ ≠ ผู้สนับสนุน ม.86</div>
+      </div><span class="lchev">▼</span>
+    </div>
+    <div class="lbody">
+      <div class="ltext"><span class="ll">📜 มาตรา ๘๖</span>ผู้ใดกระทำด้วยประการใด อันเป็นการช่วยเหลือหรือให้ความสะดวกแก่ผู้กระทำความผิดก่อน หรือขณะกระทำความผิด แม้ผู้กระทำความผิดจะไม่ได้รู้ถึงการช่วยเหลือหรือให้ความสะดวกนั้นก็ตาม ผู้นั้นเป็นผู้สนับสนุนการกระทำความผิด ต้องระวางโทษสองในสามส่วนของโทษที่กำหนดไว้สำหรับความผิดนั้น</div>
+      <div class="abox">
+        <h4>🔍 3 หลักสำคัญ</h4>
+        ① ช่วย<strong>ก่อน</strong>หรือ<strong>ขณะ</strong>เท่านั้น (หลัง = ไม่ใช่)<br>
+        ② ผู้กระทำ<strong>ไม่รู้ก็ได้</strong><br>
+        ③ ต้องมี<strong>เจตนา</strong> (ประมาทไม่เป็นผู้สนับสนุน)
+      </div>
+      <div class="pbox"><h4>⚖️ โทษ</h4>2/3 ของโทษตัวการ</div>
+    </div>
+  </div>
+
+  <div class="lcard">
+    <div class="lcard-head" onclick="tog(this)">
+      <span class="lnum" style="background:var(--g4b);color:var(--g4)" onclick="e(event);openLaw(87)">ม.87</span>
+      <div class="lcard-info">
+        <div class="ltitle">ขอบเขตความรับผิด — รับผิดเฉพาะขอบเขตที่ใช้/สนับสนุน</div>
+        <div class="lsub">ผู้ถูกใช้ทำเกินขอบเขต + หลักผลโดยธรรมดา</div>
+      </div><span class="lchev">▼</span>
+    </div>
+    <div class="lbody">
+      <div class="abox">
+        <h4>🔍 2 หลัก ม.87</h4>
+        <strong>หลัก 1:</strong> ผู้ถูกใช้/สนับสนุนกระทำเกินขอบเขต → รับผิดแค่ในขอบเขตที่ตนใช้/สนับสนุน<br>
+        <strong>หลัก 2 (ยกเว้น):</strong> ถ้าผลนั้นเป็น "ผลโดยธรรมดา" ของการใช้/สนับสนุน → ยังต้องรับผิด
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======== กลุ่ม 5: โทษ-อายุความ ======== -->
+<div class="gsec" id="sec-g5">
+  <div class="ghead bg5" style="border-left-color:var(--g5)">
+    <div class="gnum c5">05</div>
+    <div>
+      <div class="gtitle c5">โทษ · กรรมเดียว/หลายกรรม · อายุความ</div>
+      <div class="gsub">ม.18, 90, 91, 92, 93, 95, 96, 98 · ท่องแค่ตัวเลข + สูตร</div>
+      <span class="gtip" style="background:var(--g5m);color:var(--g5)">★★ จำตัวเลขสำคัญ</span>
+    </div>
+  </div>
+
+  <!-- โทษ 5 สถาน -->
+  <div class="fbox bg5" style="margin-bottom:14px">
+    <strong class="c5">💡 โทษ 5 สถาน (ม.18) — จำลำดับ!</strong><br>
+    ① ประหารชีวิต &nbsp;② จำคุก &nbsp;③ กักขัง &nbsp;④ ปรับ &nbsp;⑤ ริบทรัพย์สิน
+  </div>
+
+  <!-- ม.90-91 -->
+  <div class="lcard">
+    <div class="lcard-head" onclick="tog(this)">
+      <span class="lnum" style="background:var(--g5b);color:var(--g5);font-size:.7rem">ม.90–91</span>
+      <div class="lcard-info">
+        <div class="ltitle">กรรมเดียวหลายบท (ม.90) vs หลายกรรม (ม.91)</div>
+        <div class="lsub"><span class="star-red">★★★</span> สูตรเพดาน 10/20/50 ปี</div>
+      </div><span class="lchev">▼</span>
+    </div>
+    <div class="lbody">
+      <div class="abox">
+        <h4>🔍 ม.90 — กรรมเดียว</h4>
+        การกระทำ 1 ครั้ง ผิดหลายมาตรา → ใช้มาตราที่<strong>โทษหนักสุดเพียงบทเดียว</strong>
+      </div>
+      <div class="abox" style="margin-top:8px">
+        <h4>🔍 ม.91 — หลายกรรม (เพดานโทษรวม)</h4>
+        <table class="stbl">
+          <tr><th>กระทงหนักสุด</th><th>เพดานรวม</th></tr>
+          <tr><td>≤ 3 ปี</td><td style="color:var(--g5)"><strong>10 ปี</strong></td></tr>
+          <tr><td>3–10 ปี</td><td style="color:var(--g5)"><strong>20 ปี</strong></td></tr>
+          <tr><td>> 10 ปี</td><td style="color:var(--g5)"><strong>50 ปี</strong></td></tr>
+          <tr><td>มีจำคุกตลอดชีวิต</td><td>เปลี่ยนเป็น 50 ปีก่อนรวม</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- อายุความฟ้อง -->
+  <div class="lcard">
+    <div class="lcard-head" onclick="tog(this)">
+      <span class="lnum" style="background:var(--g5b);color:var(--g5)" onclick="e(event);openLaw(95)">ม.95</span>
+      <div class="lcard-info">
+        <div class="ltitle">อายุความฟ้องคดี — 1 ถึง 20 ปี</div>
+        <div class="lsub"><span class="star-red">★★★</span> ตาราง 5 ระดับ · นับแต่วันกระทำผิด</div>
+      </div><span class="lchev">▼</span>
+    </div>
+    <div class="lbody">
+      <table class="stbl">
+        <tr><th>โทษสูงสุด</th><th>อายุความ</th></tr>
+        <tr><td>ประหาร / จำคุกตลอดชีวิต / ≥ 20 ปี</td><td style="color:var(--g5)"><strong>20 ปี</strong></td></tr>
+        <tr><td>จำคุก > 7 ปี แต่ < 20 ปี</td><td style="color:var(--g5)"><strong>15 ปี</strong></td></tr>
+        <tr><td>จำคุก > 1 ปี ≤ 7 ปี</td><td style="color:var(--g5)"><strong>10 ปี</strong></td></tr>
+        <tr><td>จำคุก > 1 เดือน ≤ 1 ปี</td><td style="color:var(--g5)"><strong>5 ปี</strong></td></tr>
+        <tr><td>จำคุก ≤ 1 เดือน / ปรับ / ลหุโทษ</td><td style="color:var(--g5)"><strong>1 ปี</strong></td></tr>
+      </table>
+      <div class="abox" style="margin-top:8px">
+        <h4>🔍 หลักสำคัญ</h4>
+        นับแต่<strong>วันกระทำผิด</strong> · ต้องฟ้องและ<strong>ได้ตัวจำเลยมาศาล</strong>ภายในกำหนด<br>
+        <strong>ม.96</strong> ความผิดอันยอมความ: ต้องร้องทุกข์ภายใน <strong>3 เดือน</strong>นับแต่รู้ตัวผู้กระทำ
+      </div>
+    </div>
+  </div>
+
+  <!-- ม.92-93 -->
+  <div class="lcard">
+    <div class="lcard-head" onclick="tog(this)">
+      <span class="lnum" style="background:var(--g5b);color:var(--g5);font-size:.7rem">ม.92–93</span>
+      <div class="lcard-info">
+        <div class="ltitle">กระทำผิดซ้ำ — เพิ่มโทษ 1/3 หรือ 1/2</div>
+        <div class="lsub">ม.92 ทั่วไป 5 ปี +1/3 · ม.93 เฉพาะอย่าง 3 ปี +1/2</div>
+      </div><span class="lchev">▼</span>
+    </div>
+    <div class="lbody">
+      <table class="stbl">
+        <tr><th>ประเด็น</th><th>ม.92 (ทั่วไป)</th><th>ม.93 (เฉพาะอย่าง)</th></tr>
+        <tr><td>โทษคดีก่อน</td><td>จำคุก (ไม่จำกัด)</td><td>จำคุก ≥ 6 เดือน</td></tr>
+        <tr><td>ระยะเวลา</td><td>ภายใน <strong>5 ปี</strong></td><td>ภายใน <strong>3 ปี</strong></td></tr>
+        <tr><td>ประเภทความผิด</td><td>ความผิดใดก็ได้</td><td>อนุมาตราเดียวกัน</td></tr>
+        <tr><td>อัตราเพิ่ม</td><td style="color:var(--g5)"><strong>+ 1/3</strong></td><td style="color:var(--g5)"><strong>+ 1/2</strong></td></tr>
+        <tr><td>ลักษณะ</td><td colspan="2" style="text-align:center">บังคับ — ศาลไม่มีดุลพินิจ</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+</div><!-- end main -->
+
+<!-- MODAL -->
+<div class="modal-overlay" id="lawModal" onclick="closeLaw(event)">
+  <div class="modal" id="lawModalBox">
+    <div class="mhead">
+      <span class="mbadge" id="mBadge"></span>
+      <div class="mtitle" id="mTitle"></div>
+      <button class="mclose" onclick="closeLawDirect()">✕</button>
+    </div>
+    <div class="mbody" id="mBody"></div>
+  </div>
+</div>
+
+<div class="footer">
+  <div>จิราเมธ โปติ๊บ · รหัส 6840030651 · ชุดวิชา 41216 กฎหมายอาญา มสธ.</div>
+  <div class="vb">LawMap v1.0 · 5 กลุ่มหลัก · Light Edition</div>
+</div>
+
+<script>
+// TAB
+function showG(id, btn){
+  document.querySelectorAll('.gsec').forEach(s=>s.classList.remove('show'));
+  document.querySelectorAll('.gnav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('sec-'+id).classList.add('show');
+  btn.classList.add('active');
+}
+
+// ACCORDION
+function tog(head){
+  const body=head.nextElementSibling;
+  const chev=head.querySelector('.lchev');
+  const open=body.classList.toggle('open');
+  if(chev) chev.style.transform=open?'rotate(180deg)':'';
+}
+
+function e(ev){ev.stopPropagation()}
+
+// LAW DATA
+const LD={
+  59:{badge:'ม.59 · เจตนา/ประมาท/งดเว้น',bc:'#f0e8ff',bt:'#6b35a8',
+    title:'มาตรา 59 — การกระทำ เจตนา และประมาท',
+    text:`มาตรา ๕๙
+
+    วรรค 1: บุคคลจักต้องรับผิดในทางอาญาก็ต่อเมื่อได้กระทำโดยเจตนา เว้นแต่จะได้กระทำโดยประมาทในกรณีที่กฎหมายบัญญัติให้ต้องรับผิดเมื่อได้กระทำโดยประมาท
+
+    วรรค 2 (เจตนา): กระทำโดยรู้สำนึกในการที่กระทำ และในขณะเดียวกันผู้กระทำประสงค์ต่อผล หรือย่อมเล็งเห็นผลของการกระทำนั้น
+
+    วรรค 4 (ประมาท): กระทำโดยปราศจากความระมัดระวัง ซึ่งบุคคลในภาวะเช่นนั้นจักต้องมีตามวิสัยและพฤติการณ์ และผู้กระทำอาจใช้ความระมัดระวังเช่นว่านั้นได้ แต่หาได้ใช้ให้เพียงพอไม่
+
+    วรรคท้าย: "การกระทำ" ให้หมายความรวมถึงการละเว้นการกระทำซึ่งกฎหมายบังคับให้ต้องกระทำ`,
+    body:`<div style="font-size:.8rem;line-height:1.85">
+<strong>เจตนา 2 ประเภท:</strong><br>
+① ประสงค์ต่อผล — รู้ + ต้องการให้ผลเกิด<br>
+② ย่อมเล็งเห็นผล — รู้ว่าผลจะเกิดขึ้น<em>อย่างแน่นอน</em><br><br>
+<strong>ประมาท 4 เงื่อนไข:</strong><br>
+① ไม่เจตนา ② ปราศจากความระมัดระวัง ③ อาจระวังได้ ④ แต่ไม่ระวัง<br><br>
+<strong>⚠️ เล็งเห็นผล ≠ ประมาท</strong><br>
+เล็งเห็นผล = รู้แน่ว่าจะเกิด → <strong>ยังถือว่ามีเจตนา</strong><br>
+ประมาท = แค่ไม่ระวัง ไม่ได้รู้ว่าจะเกิด</div>`},
+  60:{badge:'ม.60 · กระทำโดยพลาด',bc:'#f0e8ff',bt:'#6b35a8',
+    title:'มาตรา 60 — กระทำโดยพลาด (Aberratio Ictus)',
+    text:`มาตรา ๖๐
+
+    ผู้ใดเจตนาจะกระทำต่อบุคคลหนึ่ง แต่ผลของการกระทำเกิดแก่อีกบุคคลหนึ่งโดยพลาดไป ให้ถือว่าผู้นั้นกระทำโดยเจตนาแก่บุคคลซึ่งได้รับผลร้ายจากการกระทำนั้น
+
+    แต่ในกรณีที่กฎหมายบัญญัติให้ลงโทษหนักขึ้นเพราะฐานะของบุคคลหรือเพราะความสัมพันธ์ระหว่างผู้กระทำกับบุคคลที่ได้รับผลร้าย มิให้นำกฎหมายนั้นมาใช้บังคับเพื่อลงโทษผู้กระทำให้หนักขึ้น`,
+    body:`<div style="font-size:.8rem;line-height:1.85"><strong>ตัวอย่าง:</strong><br>ม่วงยิงไปที่ดำ กระสุนพลาดถูกแดงตาย<br>→ ม่วงผิด (1) พยายามฆ่าดำ ม.288+ม.80 + (2) ฆ่าแดงตาย ม.288+ม.60<br><br>⚠️ ถ้าดำเป็นบุพการีม่วง → ห้ามนำ ม.289(1) มาใช้หนักขึ้น เพราะ ม.60 ห้ามไว้</div>`},
+  61:{badge:'ม.61 · สำคัญผิดตัวบุคคล',bc:'#fff3e0',bt:'#b07d2a',
+    title:'มาตรา 61 — สำคัญผิดในตัวบุคคล/วัตถุ',
+    text:`มาตรา ๖๑
+
+    ผู้ใดเจตนาจะกระทำต่อบุคคลหนึ่งหรือทรัพย์สิ่งหนึ่ง แต่ได้กระทำต่ออีกบุคคลหนึ่งหรือทรัพย์อีกสิ่งหนึ่งโดยสำคัญผิด ผู้นั้นจะอ้างว่ามิได้มีเจตนากระทำต่อบุคคลหรือทรัพย์ที่ได้รับผลร้ายนั้นไม่ได้`,
+    body:`<div style="font-size:.8rem;line-height:1.85"><strong>ตัวอย่าง:</strong><br>ตั้งใจฆ่า ข. มืดมาก เข้าใจว่า ค. เป็น ข. ยิง ค. ตาย<br>→ ผิดฆ่า ค. โดยเจตนา ม.288<br><br><strong>เปรียบ ม.60 vs ม.61:</strong><br>ม.60 = เล็งถูกคน แต่กระสุนพลาด (2 ฝ่ายเสียหาย)<br>ม.61 = เล็งผิดคน สำคัญผิดว่าเป็นใคร (1 ฝ่ายเสียหาย)</div>`},
+  62:{badge:'ม.62 · ไม่รู้ข้อเท็จจริง',bc:'#fff3e0',bt:'#b07d2a',
+    title:'มาตรา 62 — ไม่รู้ข้อเท็จจริงอันเป็นองค์ประกอบ',
+    text:`มาตรา ๖๒
+
+    วรรค 1: ถ้าผู้กระทำไม่รู้ข้อเท็จจริงอันเป็นองค์ประกอบของความผิด จะถือว่ากระทำโดยเจตนามิได้
+
+    วรรคท้าย: ถ้าข้อเท็จจริงที่ผู้กระทำไม่รู้นั้น เป็นข้อเท็จจริงซึ่งเป็นเหตุให้โทษหนักขึ้น ผู้กระทำต้องรับโทษหนักขึ้นต่อเมื่อรู้ข้อเท็จจริงนั้น`,
+    body:`<div style="font-size:.8rem;line-height:1.85"><strong>วรรคท้าย ★★★</strong><br>ไม่รู้ว่าเป็นบุพการี → ไม่รับโทษหนักตาม ม.289(1)<br>ไม่รู้ว่าเป็นเจ้าพนักงาน → ไม่รับโทษหนักตาม ม.289(2)<br><br>ต้อง "รู้" ข้อเท็จจริงที่ทำให้โทษหนักขึ้น จึงจะรับโทษหนัก</div>`},
+  65:{badge:'ม.65 · วิกลจริต',bc:'#fef5f4',bt:'#c0392b',
+    title:'มาตรา 65 — วิกลจริต ไม่ต้องรับโทษ',
+    text:`มาตรา ๖๕
+
+    ผู้ใดกระทำความผิด ในขณะไม่สามารถรู้ผิดชอบ หรือไม่สามารถบังคับตนเองได้เพราะมีจิตบกพร่อง โรคจิต หรือจิตฟั่นเฟือน ผู้นั้นไม่ต้องรับโทษ
+
+    แต่ถ้าผู้กระทำความผิดเข้าอยู่ในสภาพเช่นว่านั้นบางส่วน ผู้นั้นอาจรับโทษน้อยกว่าโทษที่กฎหมายกำหนดไว้สำหรับความผิดนั้นเพียงใดก็ได้`,
+    body:`<div style="font-size:.8rem;line-height:1.85">ต้องไม่สามารถรู้ผิดชอบ<em>ขณะกระทำ</em><br>วรรค 1: วิกลจริตเต็ม → ไม่ต้องรับโทษ (ยกเว้นโทษ)<br>วรรค 2: วิกลจริตบางส่วน → ลดโทษเท่าใดก็ได้</div>`},
+  67:{badge:'ม.67 · กระทำโดยจำเป็น',bc:'#fef5f4',bt:'#c0392b',
+    title:'มาตรา 67 — การกระทำโดยจำเป็น (Necessity)',
+    text:`มาตรา ๖๗
+
+    ผู้ใดกระทำการใดเพื่อป้องกันสิทธิของตนหรือของผู้อื่นจากภยันตรายที่ใกล้จะถึง อันเกิดจากสิ่งแวดล้อมหรือจากเหตุสุดวิสัย เว้นแต่จะสามารถหลีกเลี่ยงภยันตรายได้ด้วยวิธีอื่น และกระทำสมควรแก่เหตุ ผู้นั้นไม่มีความผิด`,
+    body:`<div style="font-size:.8rem;line-height:1.85">ภัยจาก<em>สิ่งแวดล้อม/เหตุสุดวิสัย</em> (ธรรมชาติ) ไม่ใช่การกระทำของมนุษย์<br>ต้องไม่มีทางหลีกเลี่ยงด้วยวิธีอื่น<br><br><strong>เปรียบ ม.67 vs ม.68:</strong><br>ม.67 = ภัยธรรมชาติ · ม.68 = ภัยจากมนุษย์ประทุษร้าย</div>`},
+  68:{badge:'ม.68 · ป้องกันโดยชอบ',bc:'#fef5f4',bt:'#c0392b',
+    title:'มาตรา 68 — การป้องกันโดยชอบด้วยกฎหมาย',
+    text:`มาตรา ๖๘
+
+    ผู้ใดจำต้องกระทำการใดเพื่อป้องกันสิทธิของตนหรือของผู้อื่นให้พ้นจากภยันตรายซึ่งเกิดจากการประทุษร้ายอันละเมิดต่อกฎหมาย และเป็นภยันตรายที่ใกล้จะถึง ถ้าได้กระทำพอสมควรแก่เหตุ การกระทำนั้นเป็นการป้องกันโดยชอบด้วยกฎหมาย ผู้นั้นไม่มีความผิด`,
+    body:`<div style="font-size:.8rem;line-height:1.85"><strong>4 Elements (ต้องครบ):</strong><br>① ภยันตรายจากการประทุษร้ายที่ละเมิดกฎหมาย<br>② ภยันตรายนั้นใกล้จะถึง (imminent)<br>③ กระทำเพื่อป้องกันสิทธิตนหรือผู้อื่น<br>④ กระทำพอสมควรแก่เหตุ (proportionate)<br><br>ขาดข้อใดข้อหนึ่ง → ไม่ใช่ป้องกันโดยชอบ</div>`},
+  72:{badge:'ม.72 · บันดาลโทสะ',bc:'#fef5f4',bt:'#c0392b',
+    title:'มาตรา 72 — เหตุบันดาลโทสะ',
+    text:`มาตรา ๗๒
+
+    ผู้ใดบันดาลโทสะโดยถูกข่มเหงอย่างร้ายแรงด้วยเหตุอันไม่เป็นธรรม จึงกระทำความผิดต่อผู้ข่มเหงในขณะนั้น ศาลจะลงโทษผู้นั้นน้อยกว่าที่กฎหมายกำหนดไว้สำหรับความผิดนั้นเพียงใดก็ได้`,
+    body:`<div style="font-size:.8rem;line-height:1.85">3 เงื่อนไข:<br>① ถูกข่มเหง<strong>อย่างร้ายแรง</strong>และไม่เป็นธรรม<br>② บันดาลโทสะเพราะการข่มเหงนั้น<br>③ กระทำต่อผู้ข่มเหง<strong>ในขณะนั้น</strong> (ทันที ไม่วางแผน)</div>`},
+  73:{badge:'ม.73 · เด็ก ≤15 ปี',bc:'#fef5f4',bt:'#c0392b',
+    title:'มาตรา 73 — เด็กอายุไม่เกิน 15 ปี (แก้ไข พ.ศ.2551)',
+    text:`มาตรา ๗๓
+
+    เด็กอายุยังไม่เกินสิบห้าปี กระทำการอันกฎหมายบัญญัติเป็นความผิด เด็กนั้นไม่ต้องรับโทษ ให้พนักงานสอบสวนส่งตัวเด็กตามวรรคหนึ่งให้พนักงานเจ้าหน้าที่ตามกฎหมายว่าด้วยการคุ้มครองเด็ก เพื่อดำเนินการคุ้มครองสวัสดิภาพตามกฎหมายว่าด้วยการนั้น`,
+    body:`<div style="font-size:.8rem;line-height:1.85">อายุ ≤ 15 ปี ไม่ต้องรับโทษเลย<br>ส่งพนักงานเจ้าหน้าที่ตามกฎหมายคุ้มครองเด็กแทน<br><br>⚠️ ฉบับเดิม: ≤ 10 ปี แต่แก้ไขแล้ว (ฉบับที่ 21 พ.ศ.2551) เป็น ≤ 15 ปี</div>`},
+  74:{badge:'ม.74 · เด็ก >10 ≤15 ปี (5 อนุ)',bc:'#fef5f4',bt:'#c0392b',
+    title:'มาตรา 74 — เด็กอายุกว่า 10 แต่ไม่เกิน 15 ปี (อำนาจศาล 5 อนุ)',
+    text:`มาตรา ๗๔
+
+    เด็กอายุกว่าสิบปีแต่ยังไม่เกินสิบห้าปี กระทำการอันกฎหมายบัญญัติเป็นความผิด เด็กนั้นไม่ต้องรับโทษ แต่ให้ศาลมีอำนาจดำเนินการดังต่อไปนี้
+    (๑) ว่ากล่าวตักเตือนเด็กนั้นแล้วปล่อยตัวไป
+    (๒) มอบตัวเด็กให้แก่บิดา มารดา หรือผู้ปกครองไป โดยวางข้อกำหนดให้ระวังเด็กไม่ให้ก่อเหตุร้าย ≤ 3 ปี
+    (๓) กำหนดเงื่อนไขเพื่อคุมความประพฤติเด็กนั้น
+    (๔) มอบตัวเด็กให้อยู่กับบุคคลหรือองค์การที่ศาลเห็นสมควรเพื่อดูแล อบรม และสั่งสอน
+    (๕) ส่งตัวเด็กนั้นไปยังโรงเรียน หรือสถานฝึกและอบรม`,
+    body:`<div style="font-size:.8rem;line-height:1.85">ไม่รับโทษอาญา แต่ศาลมีอำนาจ 5 มาตรการแทน<br><br>⚠️ ต่างจาก ม.73: ม.73 ส่งพนักงานเจ้าหน้าที่ · ม.74 ศาลมีอำนาจเลือก 5 อนุ</div>`},
+  75:{badge:'ม.75 · อายุ >15 <18 ปี · ลด 1/2',bc:'#fef5f4',bt:'#c0392b',
+    title:'มาตรา 75 — อายุกว่า 15 แต่ต่ำกว่า 18 ปี',
+    text:`มาตรา ๗๕
+
+    ผู้ใดอายุกว่าสิบห้าปีแต่ยังไม่เกินสิบแปดปี กระทำการอันกฎหมายบัญญัติเป็นความผิด ให้ศาลพิจารณาถึงความรู้สึกผิดชอบและสิ่งอื่นทั้งปวงเกี่ยวกับผู้นั้น ในอันที่จะวินิจฉัยว่าสมควรพิพากษาลงโทษผู้นั้นหรือไม่
+
+    ถ้าศาลเห็นว่าไม่สมควรพิพากษาลงโทษก็ให้จัดการตามมาตรา ๗๔ หรือถ้าศาลเห็นว่าสมควรพิพากษาลงโทษ ก็ให้ลดมาตราส่วนโทษที่กำหนดไว้สำหรับความผิดลงกึ่งหนึ่ง`,
+    body:`<div style="font-size:.8rem;line-height:1.85">ศาลมีดุลพินิจ 2 ทาง:<br>① ไม่สมควรลงโทษ → จัดการตาม <strong>ม.74</strong> (5 มาตรการ)<br>② สมควรลงโทษ → ลด <strong>1/2 (กึ่งหนึ่ง)</strong></div>`},
+  76:{badge:'ม.76 · อายุ 18–20 ปี · ลด 1/3 หรือ 1/2',bc:'#fef5f4',bt:'#c0392b',
+    title:'มาตรา 76 — อายุตั้งแต่ 18 แต่ไม่เกิน 20 ปี',
+    text:`มาตรา ๗๖
+
+    ผู้ใดอายุตั้งแต่สิบแปดปีแต่ยังไม่เกินยี่สิบปี กระทำการอันกฎหมายบัญญัติเป็นความผิด ถ้าศาลเห็นสมควรจะลดมาตราส่วนโทษที่กำหนดไว้สำหรับความผิดนั้นลงหนึ่งในสามหรือกึ่งหนึ่งก็ได้`,
+    body:`<div style="font-size:.8rem;line-height:1.85">รับโทษปกติ แต่ศาลอาจลด <strong>1/3 หรือ 1/2</strong> ตามดุลพินิจ</div>`},
+  80:{badge:'ม.80 · พยายามทั่วไป · 2/3',bc:'#f0faf5',bt:'#1a6b4a',
+    title:'มาตรา 80 — การพยายามกระทำความผิด',
+    text:`มาตรา ๘๐
+
+    ผู้ใดลงมือกระทำความผิดแต่กระทำไปไม่ตลอด หรือกระทำไปตลอดแล้วแต่การกระทำนั้นไม่บรรลุผล ผู้นั้นพยายามกระทำความผิด
+
+    ผู้พยายามกระทำความผิด ต้องระวางโทษสองในสามส่วนของโทษที่กฎหมายกำหนดไว้สำหรับความผิดนั้น`,
+    body:`<div style="font-size:.8rem;line-height:1.85">เงื่อนไข 3 ข้อ:<br>① มีเจตนากระทำผิด<br>② ลงมือกระทำแล้ว (ข้ามเส้นตระเตรียม)<br>③ ไม่บรรลุผลเพราะเหตุบังเอิญ<br><br>โทษ: 2/3 ของโทษความผิดสำเร็จ</div>`},
+  81:{badge:'ม.81 · ไม่บรรลุแน่แท้ · ≤1/2',bc:'#f0faf5',bt:'#1a6b4a',
+    title:'มาตรา 81 — พยายามที่ไม่สามารถบรรลุผลได้อย่างแน่แท้',
+    text:`มาตรา ๘๑
+
+    ผู้ใดกระทำการโดยมุ่งต่อผลซึ่งกฎหมายบัญญัติเป็นความผิด แต่การกระทำนั้นไม่สามารถจะบรรลุผลได้อย่างแน่แท้ เพราะเหตุปัจจัยซึ่งใช้ในการกระทำ หรือเพราะเหตุแห่งวัตถุที่มุ่งหมายกระทำต่อ ผู้นั้นต้องระวางโทษไม่เกินกึ่งหนึ่งของโทษที่กฎหมายกำหนดไว้สำหรับความผิดนั้น
+
+    ถ้าการกระทำดังกล่าวได้กระทำไปโดยความเชื่ออย่างงมงาย ศาลจะไม่ลงโทษก็ได้`,
+    body:`<div style="font-size:.8rem;line-height:1.85">สาเหตุที่ไม่บรรลุแน่แท้ (2 อย่างเท่านั้น):<br>① ปัจจัยที่ใช้บกพร่อง (ปืนไม่มีกระสุน)<br>② วัตถุบกพร่อง (ยิงศพ ทำแท้งหญิงไม่ตั้งครรภ์)<br><br>งมงาย → ศาลอาจไม่ลงโทษ<br>โทษ: ≤ 1/2 ของโทษ</div>`},
+  82:{badge:'ม.82 · ยับยั้ง/กลับใจ',bc:'#f0faf5',bt:'#1a6b4a',
+    title:'มาตรา 82 — ยับยั้งหรือกลับใจ',
+    text:`มาตรา ๘๒
+
+    ถ้าผู้ที่ได้ลงมือกระทำความผิดได้ยับยั้งเสียเองไม่กระทำการให้ตลอด หรือได้กลับใจแก้ไขไม่ให้การกระทำนั้นบรรลุผล ผู้นั้นไม่ต้องรับโทษสำหรับการพยายามกระทำความผิดนั้น
+
+    แต่ถ้าการที่ได้กระทำไปแล้วต้องตามบทกฎหมายที่บัญญัติเป็นความผิด ผู้นั้นต้องรับโทษสำหรับการกระทำนั้น`,
+    body:`<div style="font-size:.8rem;line-height:1.85">สมัครใจยับยั้ง → ยกเว้นโทษพยายาม<br>ไม่สมัครใจ (ถูกจับ กลัวตำรวจ) → ไม่ยกเว้น<br><br>⚠️ สิ่งที่ทำไปแล้วและผิดอื่น → ยังต้องรับโทษ</div>`},
+  83:{badge:'ม.83 · ตัวการร่วม',bc:'#f7f2fd',bt:'#6b35a8',
+    title:'มาตรา 83 — ตัวการร่วม',
+    text:`มาตรา ๘๓
+
+    ในกรณีความผิดใดเกิดขึ้นโดยการกระทำของบุคคลตั้งแต่สองคนขึ้นไป ผู้ที่ได้ร่วมกระทำความผิดด้วยกันนั้นเป็นตัวการ ต้องระวางโทษตามที่กฎหมายกำหนดไว้สำหรับความผิดนั้น`,
+    body:`<div style="font-size:.8rem;line-height:1.85">องค์ประกอบ 2 ข้อ (ต้องครบ):<br>① ร่วมใจ — มีเจตนาร่วมกัน<br>② ร่วมกระทำ — ลงมือร่วมกัน<br><br>โทษ: เต็มเหมือนกระทำคนเดียว</div>`},
+  84:{badge:'ม.84 · ผู้ใช้',bc:'#f7f2fd',bt:'#6b35a8',
+    title:'มาตรา 84 — ผู้ใช้',
+    text:`มาตรา ๘๔
+
+    ผู้ใดก่อให้ผู้อื่นกระทำความผิดไม่ว่าด้วยการใช้ บังคับ ขู่เข็ญ จ้าง วานหรือยุยงส่งเสริม หรือด้วยวิธีอื่นใด ผู้นั้นเป็นผู้ใช้ให้กระทำความผิด
+
+    ถ้าความผิดมิได้กระทำลง ผู้ใช้ต้องระวางโทษเพียงหนึ่งในสามของโทษที่กำหนดไว้สำหรับความผิดนั้น
+    ถ้าผู้ถูกใช้ได้กระทำความผิดนั้น ผู้ใช้ต้องรับโทษเสมือนเป็นตัวการ
+    ถ้าผู้ถูกใช้เป็นบุคคลอายุไม่เกิน 18 ปี / ผู้พิการ / ลูกจ้าง / ยากจน ให้เพิ่มโทษกึ่งหนึ่ง`,
+    body:`<div style="font-size:.8rem;line-height:1.85">โทษ 3 กรณี:<br>กระทำสำเร็จ → เท่าตัวการ<br>ยังไม่กระทำ → 1/3<br>ใช้คนเปราะบาง → +1/2 อีก</div>`},
+  86:{badge:'ม.86 · ผู้สนับสนุน · 2/3',bc:'#f7f2fd',bt:'#6b35a8',
+    title:'มาตรา 86 — ผู้สนับสนุน',
+    text:`มาตรา ๘๖
+
+    ผู้ใดกระทำด้วยประการใด อันเป็นการช่วยเหลือหรือให้ความสะดวกแก่ผู้กระทำความผิดก่อน หรือขณะกระทำความผิด แม้ผู้กระทำความผิดจะไม่ได้รู้ถึงการช่วยเหลือหรือให้ความสะดวกนั้นก็ตาม ผู้นั้นเป็นผู้สนับสนุนการกระทำความผิด ต้องระวางโทษสองในสามส่วนของโทษที่กำหนดไว้สำหรับความผิดนั้น`,
+    body:`<div style="font-size:.8rem;line-height:1.85">ช่วย<strong>ก่อน</strong>หรือ<strong>ขณะ</strong>เท่านั้น → ผู้กระทำไม่รู้ก็ได้<br>ต้องมีเจตนา (ประมาทไม่ใช่)<br>โทษ: 2/3 ของโทษตัวการ</div>`},
+  87:{badge:'ม.87 · ขอบเขตความรับผิด',bc:'#f7f2fd',bt:'#6b35a8',
+    title:'มาตรา 87 — ขอบเขตความรับผิดของผู้ใช้/ผู้สนับสนุน',
+    text:`มาตรา ๘๗
+
+    ในกรณีที่ผู้ถูกใช้หรือผู้ถูกสนับสนุนกระทำความผิดต่างไปจากที่ใช้หรือสนับสนุน ผู้ใช้หรือผู้สนับสนุนต้องรับผิดเพียงสำหรับความผิดที่ตนได้ใช้หรือสนับสนุนนั้นเท่านั้น
+
+    แต่ถ้าความผิดที่กระทำนั้นเป็นผลโดยธรรมดาของการใช้หรือสนับสนุนนั้น ผู้ใช้หรือผู้สนับสนุนก็ต้องรับผิดในผลนั้นด้วย`,
+    body:`<div style="font-size:.8rem;line-height:1.85">หลัก 1: รับผิดในขอบเขตที่ตนใช้/สนับสนุน<br>หลัก 2 (ยกเว้น): ผลโดยธรรมดา → ยังต้องรับผิด</div>`},
+  90:{badge:'ม.90 · กรรมเดียวหลายบท',bc:'#fdf6ed',bt:'#8a5a1a',
+    title:'มาตรา 90 — กรรมเดียวผิดกฎหมายหลายบท',
+    text:`มาตรา ๙๐
+
+    เมื่อการกระทำใดอันเป็นกรรมเดียวเป็นความผิดต่อกฎหมายหลายบท ให้ใช้กฎหมายบทที่มีโทษหนักที่สุดลงโทษแก่ผู้กระทำความผิด`,
+    body:`<div style="font-size:.8rem;line-height:1.85">กรรมเดียว = กระทำ 1 ครั้ง หรือหลายอย่างแต่เจตนาเดียว → ผิดหลายมาตรา<br>ใช้บทที่<strong>หนักสุดเพียงบทเดียว</strong></div>`},
+  91:{badge:'ม.91 · หลายกรรม เพดาน 10/20/50',bc:'#fdf6ed',bt:'#8a5a1a',
+    title:'มาตรา 91 — หลายกรรมต่างกัน',
+    text:`มาตรา ๙๑
+
+    เมื่อปรากฏว่าผู้ใดได้กระทำการอันเป็นความผิดหลายกรรมต่างกัน ให้ศาลลงโทษผู้นั้นทุกรรมเป็นกระทงความผิดไป แต่ไม่ว่าจะมีการเพิ่มโทษลดโทษ เมื่อรวมโทษทุกกระทงแล้วโทษจำคุกทั้งสิ้นต้องไม่เกิน
+    (๑) สิบปี ถ้ากระทงหนักสุดมีโทษจำคุก ≤ 3 ปี
+    (๒) ยี่สิบปี ถ้ากระทงหนักสุดมีโทษจำคุก > 3 ปี แต่ ≤ 10 ปี
+    (๓) ห้าสิบปี ถ้ากระทงหนักสุดมีโทษจำคุก > 10 ปี`,
+    body:`<div style="font-size:.8rem;line-height:1.85">เรียงกระทงลงโทษทุกกรรม แต่มีเพดาน:<br>กระทงหนัก ≤ 3 ปี → รวมไม่เกิน <strong>10 ปี</strong><br>กระทงหนัก 3–10 ปี → รวมไม่เกิน <strong>20 ปี</strong><br>กระทงหนัก > 10 ปี → รวมไม่เกิน <strong>50 ปี</strong></div>`},
+  92:{badge:'ม.92 · ทำผิดซ้ำ 5ปี +1/3',bc:'#fdf6ed',bt:'#8a5a1a',
+    title:'มาตรา 92 — กระทำผิดซ้ำทั่วไป',
+    text:`มาตรา ๙๒
+
+    ผู้ใดต้องโทษจำคุก และได้กระทำความผิดอีกในระหว่างที่ยังต้องรับโทษอยู่หรือภายในห้าปีนับแต่วันพ้นโทษ ถ้าศาลพิพากษาลงโทษจำคุกสำหรับความผิดครั้งหลังนี้ ศาลจะเพิ่มโทษที่จะลงแก่ผู้นั้นอีกหนึ่งในสาม ของโทษที่ศาลกำหนดสำหรับความผิดครั้งหลังนั้นก็ได้`,
+    body:`<div style="font-size:.8rem;line-height:1.85">เงื่อนไข: เคยจำคุก + ผิดอีกภายใน 5 ปีนับพ้นโทษ<br>อัตราเพิ่ม: <strong>+1/3</strong><br>ลักษณะ: บังคับ (ศาลไม่มีดุลพินิจ)</div>`},
+  95:{badge:'ม.95 · อายุความฟ้องคดี',bc:'#fdf6ed',bt:'#8a5a1a',
+    title:'มาตรา 95 — อายุความฟ้องคดีอาญา',
+    text:`มาตรา ๙๕
+
+    ในคดีอาญา ถ้ามิได้ฟ้องและได้ตัวผู้กระทำความผิดมายังศาลภายในกำหนดดังต่อไปนี้นับแต่วันกระทำความผิด เป็นอันขาดอายุความ
+    (๑) ยี่สิบปี สำหรับความผิดต้องระวางโทษประหารชีวิต จำคุกตลอดชีวิต หรือจำคุกยี่สิบปี
+    (๒) สิบห้าปี สำหรับความผิดต้องระวางโทษจำคุกกว่าเจ็ดปีถึงยี่สิบปี
+    (๓) สิบปี สำหรับความผิดต้องระวางโทษจำคุกกว่าหนึ่งปีถึงเจ็ดปี
+    (๔) ห้าปี สำหรับความผิดต้องระวางโทษจำคุกกว่าหนึ่งเดือนถึงหนึ่งปี
+    (๕) หนึ่งปี สำหรับความผิดต้องระวางโทษจำคุกไม่เกินหนึ่งเดือน หรือต้องระวางโทษปรับอย่างเดียว`,
+    body:`<div style="font-size:.8rem;line-height:1.85">นับแต่<strong>วันกระทำผิด</strong><br>ต้องฟ้องและ<strong>ได้ตัวจำเลยมาศาล</strong>ภายในกำหนด (แค่ยื่นฟ้องไม่พอ)</div>`},
+  96:{badge:'ม.96 · ร้องทุกข์ 3 เดือน',bc:'#fdf6ed',bt:'#8a5a1a',
+    title:'มาตรา 96 — อายุความความผิดอันยอมความได้',
+    text:`มาตรา ๙๖
+
+    ภายใต้บังคับมาตรา ๙๕ ในกรณีความผิดอันยอมความได้ ถ้าผู้เสียหายมิได้ร้องทุกข์ภายในสามเดือนนับแต่วันที่รู้เรื่องความผิดและรู้ตัวผู้กระทำความผิด เป็นอันขาดอายุความ`,
+    body:`<div style="font-size:.8rem;line-height:1.85">ต้องร้องทุกข์ภายใน <strong>3 เดือน</strong>นับแต่รู้ตัวผู้กระทำ<br>+ ต้องอยู่ในอายุความ ม.95 ด้วย</div>`},
+  98:{badge:'ม.98 · อายุความลงโทษ',bc:'#fdf6ed',bt:'#8a5a1a',
+    title:'มาตรา 98 — อายุความการลงโทษ',
+    text:`มาตรา ๙๘
+
+    ถ้าพ้นกำหนดเวลาดังต่อไปนี้นับแต่วันที่มีคำพิพากษาถึงที่สุดยังไม่ได้ตัวผู้นั้นมารับโทษ เป็นอันล่วงเลยการลงโทษ
+    (๑) ยี่สิบปี สำหรับโทษประหารชีวิต หรือจำคุกตลอดชีวิต
+    (๒) สิบห้าปี สำหรับโทษจำคุกกว่าเจ็ดปี
+    (๓) สิบปี สำหรับโทษจำคุกกว่าหนึ่งปีถึงเจ็ดปี
+    (๔) ห้าปี สำหรับโทษจำคุกไม่เกินหนึ่งปีหรือกักขัง หรือปรับอย่างเดียว`,
+    body:`<div style="font-size:.8rem;line-height:1.85">นับแต่วัน<strong>คำพิพากษาถึงที่สุด</strong><br>พ้นกำหนด → ล่วงเลยการลงโทษ บังคับโทษอีกไม่ได้</div>`},
+};
+
+function openLaw(num){
+  const d=LD[num]; if(!d)return;
+  const badge=document.getElementById('mBadge');
+  badge.textContent=d.badge;
+  badge.style.background=d.bc;badge.style.color=d.bt;badge.style.border='1px solid '+d.bt+'44';
+  document.getElementById('mTitle').textContent=d.title;
+  document.getElementById('mBody').innerHTML=`
+    <div style="background:var(--gold-light);border:1px solid var(--gold-mid);border-left:3px solid var(--gold);border-radius:8px;padding:12px 14px;margin-bottom:14px;font-size:.78rem;white-space:pre-line;line-height:1.85;color:#4a3800;font-family:'IBM Plex Mono',monospace">
+      <span style="display:block;font-size:.68rem;font-weight:700;color:var(--gold);margin-bottom:6px;font-family:'IBM Plex Sans Thai',sans-serif">📜 ตัวบทกฎหมาย</span>${d.text}</div>
+    ${d.body||''}`;
+  document.getElementById('lawModal').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeLaw(e){if(e.target===document.getElementById('lawModal'))closeLawDirect();}
+function closeLawDirect(){document.getElementById('lawModal').classList.remove('open');document.body.style.overflow='';}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLawDirect();});
+</script>
+</body>
+</html>
